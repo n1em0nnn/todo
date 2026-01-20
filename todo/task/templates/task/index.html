@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #374151;
+            margin-bottom: 20px;
+        }
+
+        form.add-task {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #a5b4fc;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #818cf8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e0e7ff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9fafc;
+        }
+
+        a.button {
+            background-color: #a5b4fc;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        a.button:hover {
+            background-color: #818cf8;
+        }
+
+        .delete-button {
+            background-color: #fca5a5;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .delete-button:hover {
+            background-color: #f87171;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Список задач</h1>
+
+<!-- Форма добавления задачи -->
+<form method="post" action="{% url 'task_add' %}" class="add-task">
+    {% csrf_token %}
+
+    <label for="title">Заголовок</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="descr">Описание</label>
+    <textarea id="descr" name="descr" rows="3"></textarea>
+
+
+    <button type="submit">Добавить задачу</button>
+</form>
+
+<!-- Таблица списка задач -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Заголовок</th>
+        <th>Описание</th>
+        <th>Статус</th>
+        <th>Действия</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.id }}</td>
+        <td>{{ task.title }}</td>
+        <td>{{ task.descr }}</td>
+        <td>{{ task.status }}</td>
+        <td>
+            <a href="{% url 'task_edit' task.id %}" class="button">Редактировать</a>
+
+            <form method="post" action="{% url 'task_delete' task.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="delete-button" onclick="return confirm('Удалить задачу?');">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">Нет задач</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
