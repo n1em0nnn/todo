@@ -1,8 +1,9 @@
 from django.urls import path
 from .views import get_tasks,add_task,update_task,delete_task,edit_task
-
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='task/', permanent=True)),
     path('task/', get_tasks, name='task_list'),            # GET — список
     path('task/add/', add_task, name='task_add'),         # POST — добавление
     path('task/<int:id>/edit/', edit_task, name='task_edit'),   # GET — форма редактирования

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #374151;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #a5b4fc;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #818cf8;
+        }
+
+        .register-button {
+            background-color: #facc15;
+            margin-top: 10px;
+        }
+
+        .register-button:hover {
+            background-color: #fbbf24;
+        }
+
+        .errorlist {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Вход</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <div>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+    </div>
+
+    <div>
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        {{ form.password.errors }}
+    </div>
+
+    <button type="submit">Войти</button>
+</form>
+
+<form action="{% url 'register' %}" method="get">
+    <button type="submit" class="register-button">Зарегистрироваться</button>
+</form>
+
+</body>
+</html>

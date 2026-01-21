@@ -106,7 +106,11 @@
     </style>
 </head>
 <body>
-
+<h1>Привет, {{user.username}}</h1>
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Выйти</button>
+</form>
 <h1>Список задач</h1>
 
 <!-- Форма добавления задачи -->
