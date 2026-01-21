@@ -9,14 +9,18 @@ from .models import Task
 @login_required(login_url="/login/")
 def get_tasks(request):
     user = request.user
-    tasks = Task.objects.all()
+    if request.user.is_superuser:
+        tasks = Task.objects.all()
+    else:
+        tasks = Task.objects.filter(user=request.user)
     return render(request,"task/index.html",{"tasks":tasks, "user":user})
 @login_required(login_url="/login/")
 def add_task(request):
     if request.method == "POST":
         Task.objects.create(
             title = request.POST.get("title"),
-            descr = request.POST.get("descr")
+            descr = request.POST.get("descr"),
+            user = request.user
         )
     return redirect('task_list')
 @login_required(login_url="/login/")
